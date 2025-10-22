@@ -1,0 +1,96 @@
+#include <stdio.h>
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+struct Node n1, n2, n3, n4;
+struct Node *head = NULL;
+
+
+void createList() {
+    n1.data = 60;
+    n2.data = 70;
+    n3.data = 80;
+    n4.data = 90;
+
+    n1.next = &n2;
+    n2.next = &n3;
+    n3.next = &n4;
+    n4.next = &n1;  
+
+    head = &n1;
+}
+
+
+void display() {
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    struct Node *temp = head;
+    do {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    } while (temp != head);
+    printf("\n");
+}
+
+
+void deleteElement(int key) {
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    struct Node *curr = head, *prev = NULL;
+
+    
+    if (head->data == key) {
+        struct Node *last = head;
+        while (last->next != head)
+            last = last->next;
+
+        if (head->next == head) { 
+            head = NULL;
+        } else {
+            last->next = head->next;
+            head = head->next;
+        }
+        printf("Deleted %d\n", key);
+        return;
+    }
+
+    
+    do {
+        prev = curr;
+        curr = curr->next;
+        if (curr->data == key) {
+            prev->next = curr->next;
+            printf("Deleted %d\n", key);
+            return;
+        }
+    } while (curr != head);
+
+    printf("%d not found\n", key);
+}
+
+
+int main() {
+    createList();
+
+    printf("Original list: ");
+    display();            
+
+    deleteElement(70);
+    display();           
+
+    deleteElement(100);
+    display();           
+
+    deleteElement(80);
+    display();            
+
+    return 0;
+}
